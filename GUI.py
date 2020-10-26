@@ -10,6 +10,7 @@ class GUI():
         self.passwordEntry = None
         self.canvas = None
         self.KeyCode = None
+        self.EncryptN = False
         self.root = tk.Tk()
 
         self.canvasF()
@@ -32,12 +33,14 @@ class GUI():
         encButton = tk.Button(self.root,text="Encrypt !!", command=self.enc)
         dncButton = tk.Button(self.root,text="Decrypt !!", command=self.dnc)
         clearButton = tk.Button(self.root,text="Clear Selected",command=self.clear_Selected)
+        nameDEButton = tk.Button(self.root,text="Encrypt/Decrypt Name",command=self.EncryptName)
 
         runButton = tk.Button(self.root,text="RUN !!",command=self.run)
         pickButton.pack()
         clearButton.pack()
         encButton.pack()
         dncButton.pack()
+        nameDEButton.pack()
         runButton.pack()
 
     def filesFrame(self):
@@ -47,7 +50,7 @@ class GUI():
 
     def Select_Files(self):
         print('we are in Select_Files')
-        tupleFiles = filedialog.askopenfilenames(filetypes=[("all", "*.*")])
+        tupleFiles = filedialog.askopenfilenames(filetypes=[("all", "*")])
         
         for filename in tupleFiles:
             if not filename in self.all_Selected and not filename==" ":
@@ -78,7 +81,13 @@ class GUI():
 
     def run(self):
         self.KeyCode = self.password.get()
-        x=mainApp(self.all_Selected,self.typeOfOperation,self.KeyCode)
+        print(self.KeyCode)
+        x=mainApp(self.all_Selected,self.typeOfOperation,self.KeyCode,self.EncryptN)
+    
+    def EncryptName(self):
+        oldEncryptName = self.EncryptN
+        self.EncryptN = not oldEncryptName
+        print(self.EncryptN)
 
     def enc(self):
         self.typeOfOperation = 'enc'
